@@ -14,7 +14,7 @@ class Net():
         nodes = []
         
         for node in range(numOfNodes):
-            nodes.append(Node.Node())
+            nodes.append(Node.Node(node))
             
         return nodes
         

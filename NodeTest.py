@@ -10,13 +10,23 @@ import Node
 class NodeTest(unittest.TestCase):
     
     def setUp(self):
-        self.node = Node.Node()
+        self.h1 = Node.Node(0)
+        self.h1.bias = 0.35
     
     def testCalcNodeValue(self):
-        expectedValue = .5933
-        actaulValue = self.node.calcNodeValue()
+        x1 = Node.Node(0)
+        x1.setValue(0.05)
+        x1.weights = [0.15]
+        x2 = Node.Node(1)
+        x2.setValue(0.10)
+        x2.weights = [0.20]
+        self.h1.inNodes = [x1, x2]
         
-        self.assertEqual(actaulValue, expectedValue)
+        expectedValue = .5933
+        self.h1.calcNodeValue()
+        actaulValue = self.h1.value
+        
+        self.assertEqual(round(actaulValue, 4), expectedValue)
      
     
 if __name__ == '__main__':
