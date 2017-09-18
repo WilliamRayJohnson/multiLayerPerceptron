@@ -15,10 +15,12 @@ class Node():
         self.inNodes = []
         self.outNodes = []
         self.weights = []
+        self.sensitivities = []
     
     def generateWeights(self):
         for outputNode in self.outNodes:
             self.weights.append(random.random())
+            self.sensitivities.append(0.0)
             
     def setValue(self, value):
         self.value = value

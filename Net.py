@@ -25,6 +25,7 @@ class Net():
             for rightNode in rightLayer:
                 leftNode.outNodes.append(rightNode)
                 rightNode.inNodes.append(leftNode)
+            leftNode.generateWeights()
         
     def calcForwardPass(self, inputValues):
         for inputNode in range(len(self.inputLayer)):
@@ -39,7 +40,14 @@ class Net():
     def calcError(self, targets):
         error = 0.0
         for outputNode in range(len(self.outputLayer)):
-            print(self.outputLayer[outputNode].value)
             error += ((targets[outputNode] - self.outputLayer[outputNode].value)**2)/2
             
         self.totalError = error
+        
+    def calcSensitivity(self, targets):
+        for outputNode in range(len(self.outputLayer)):
+            outNode = self.outputLayer[outputNode]
+            for inNode in outNode.inNodes:
+                sensitivity = (-(targets[outputNode] - outNode.value) *
+                    outNode.value*(1 - outNode.value) * inNode.value)
+                inNode.sensitivities[outputNode] = sensitivity

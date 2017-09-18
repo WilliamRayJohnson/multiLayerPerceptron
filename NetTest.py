@@ -84,6 +84,17 @@ class NetTest(unittest.TestCase):
         actualTotalError = net.totalError
         
         self.assertEqual(round(actualTotalError, 4), expectedTotalError)
+        
+    def testCalcSensitivity(self):
+        net = self.setUpExampleNet()
+        net.calcForwardPass([0.05, 0.10])
+        net.calcError([0.01, 0.99])
+        
+        net.calcSensitivity([0.01, 0.99])
+        
+        w5Sensitivity = net.hiddenLayer[0].sensitivities[0]
+        
+        self.assertEqual(round(w5Sensitivity, 4), 0.0822)
     
     
 if __name__ == '__main__':
