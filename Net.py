@@ -9,6 +9,8 @@ class Net():
         self.makeConnections(self.inputLayer, self.hiddenLayer)
         self.makeConnections(self.hiddenLayer, self.outputLayer)
         
+        self.totalError = 0.0
+        
         
     def initializeNodes(self, numOfNodes):
         nodes = []
@@ -24,3 +26,20 @@ class Net():
                 leftNode.outNodes.append(rightNode)
                 rightNode.inNodes.append(leftNode)
         
+    def calcForwardPass(self, inputValues):
+        for inputNode in range(len(self.inputLayer)):
+            self.inputLayer[inputNode].value = inputValues[inputNode]
+            
+        for hiddenNode in self.hiddenLayer:
+            hiddenNode.calcNodeValue()
+            
+        for outputNode in self.outputLayer:
+            outputNode.calcNodeValue()
+            
+    def calcError(self, targets):
+        error = 0.0
+        for outputNode in range(len(self.outputLayer)):
+            print(self.outputLayer[outputNode].value)
+            error += ((targets[outputNode] - self.outputLayer[outputNode].value)**2)/2
+            
+        self.totalError = error
