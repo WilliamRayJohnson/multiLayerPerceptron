@@ -14,6 +14,8 @@ class Net():
         
         self.learningRate = learningRate
         self.totalError = 1.0
+        self.errorHistory = []
+        self.iterationsToTrain = []
         
         
     def initializeNodes(self, numOfNodes):
@@ -81,16 +83,16 @@ class Net():
     def train(self, trainingData):
         trainingDataCopy = copy.deepcopy(trainingData)
         iterationCounter = 0
-        while self.totalError >= 0.0000000001:
-            iterationCounter += 1
+        while self.totalError >= 0.000000001:
             print("Interation ", iterationCounter, ":") 
+            self.iterationsToTrain.append(iterationCounter)
+            iterationCounter += 1
             for dataPair in trainingDataCopy:
                 self.calcForwardPass(dataPair[0])
                 self.calcError(dataPair[1])
                 print("    Error: ", self.totalError)
                 self.calcSensitivity(dataPair[1])
                 self.updateWeights()
-                
+            self.errorHistory.append(self.totalError)
             random.shuffle(trainingDataCopy)
-                
                     
