@@ -13,7 +13,7 @@ class Net():
         self.makeConnections(self.hiddenLayer, self.outputLayer)
         
         self.learningRate = learningRate
-        self.totalError = 0.0
+        self.totalError = 1.0
         
         
     def initializeNodes(self, numOfNodes):
@@ -79,13 +79,15 @@ class Net():
                     self.learningRate * inputNode.sensitivities[weight])
                     
     def train(self, trainingData):
-        trainingDataCopy = copy.deepycopy(trainingData)
-        for iter in range(1000):
-            print("Interation ", iter, ":") 
+        trainingDataCopy = copy.deepcopy(trainingData)
+        iterationCounter = 0
+        while self.totalError >= 0.0000000001:
+            iterationCounter += 1
+            print("Interation ", iterationCounter, ":") 
             for dataPair in trainingDataCopy:
                 self.calcForwardPass(dataPair[0])
                 self.calcError(dataPair[1])
-                print("    Error: ", self.error)
+                print("    Error: ", self.totalError)
                 self.calcSensitivity(dataPair[1])
                 self.updateWeights()
                 
