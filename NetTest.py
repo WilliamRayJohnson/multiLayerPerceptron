@@ -10,10 +10,10 @@ import Node
 
 class NetTest(unittest.TestCase):
     
-    defaultNet = Net.Net(0, 0, 0)
+    defaultNet = Net.Net(0, 0, 0, 0.5)
     
     def setUpExampleNet(self):
-        net = Net.Net(2, 2, 2)
+        net = Net.Net(2, 2, 2, 0.5)
         net.inputLayer[0].weights = [0.15, 0.25]
         net.inputLayer[1].weights = [0.20, 0.30]
         net.hiddenLayer[0].weights = [0.40, 0.50]
@@ -26,7 +26,7 @@ class NetTest(unittest.TestCase):
         return net
     
     def testNetInitialization(self):
-        net = Net.Net(1, 2, 1)
+        net = Net.Net(1, 2, 1, 0.5)
         
         inNodeOne = net.inputLayer[0]
         hiddenNodeOne = net.hiddenLayer[0]
@@ -95,6 +95,14 @@ class NetTest(unittest.TestCase):
         w5Sensitivity = net.hiddenLayer[0].sensitivities[0]
         
         self.assertEqual(round(w5Sensitivity, 4), 0.0822)
+        
+    def testUpdateWeights(self):
+        net = self.setUpExampleNet()
+        net.calcForwardPass([0.05, 0.10])
+        net.calcError([0.01, 0.99])
+        net.calcSensitivity([0.01, 0.99])
+        
+        net.updateWeights()
     
     
 if __name__ == '__main__':

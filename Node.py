@@ -16,6 +16,7 @@ class Node():
         self.outNodes = []
         self.weights = []
         self.sensitivities = []
+        self.error = 0.0
     
     def generateWeights(self):
         for outputNode in self.outNodes:
